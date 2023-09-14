@@ -85,7 +85,7 @@ fun Onboarding(navController: NavController) {
                 saveToSharedPreferences(context, firstNameState.value.text,
                     lastNameState.value.text, emailState.value.text)
                 Toast.makeText(context, "Registration successful!", Toast.LENGTH_SHORT).show()
-                navController.navigate("Home")
+                navController.navigate(HomeDestination.route)
             }
 
         }) {
@@ -96,11 +96,11 @@ fun Onboarding(navController: NavController) {
 }
 
 fun saveToSharedPreferences(context: Context, firstName: String, lastName: String, email: String) {
-    val sharedPref = context.getSharedPreferences("UserDetails", Context.MODE_PRIVATE) ?: return
+    val sharedPref = context.getSharedPreferences(USER_PROFILE, Context.MODE_PRIVATE) ?: return
     with(sharedPref.edit()) {
-        putString("firstName", firstName)
-        putString("lastName", lastName)
-        putString("email", email)
+        putString(firstName, firstName)
+        putString(lastName, lastName)
+        putString(email, email)
         apply()
     }
 }
