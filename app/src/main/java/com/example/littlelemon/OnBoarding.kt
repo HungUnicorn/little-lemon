@@ -1,5 +1,6 @@
 package com.example.littlelemon
 
+import android.content.Context
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -13,23 +14,26 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import android.widget.Toast
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Onboarding() {
-    val firstName = remember { mutableStateOf("") }
-    val lastName = remember { mutableStateOf("") }
-    val email = remember { mutableStateOf("") }
+fun Onboarding(navController: NavController) {
+    val context = LocalContext.current
 
     Column(
         modifier = Modifier
@@ -49,37 +53,61 @@ fun Onboarding() {
         Text(text = "Let's get to know you")
         Spacer(modifier = Modifier.height(16.dp))
 
-        TextField(
-            value = firstName.value,
-            onValueChange = { firstName.value = it },
+        val firstNameState = remember { mutableStateOf(TextFieldValue()) }
+        OutlinedTextField(
+            value = firstNameState.value ,
+            onValueChange = { firstNameState.value = it },
             label = { Text("First Name") }
         )
         Spacer(modifier = Modifier.height(8.dp))
 
-        TextField(
-            value = lastName.value,
-            onValueChange = { lastName.value = it },
+        val lastNameState = remember { mutableStateOf(TextFieldValue()) }
+        OutlinedTextField(
+            value = lastNameState.value,
+            onValueChange = { lastNameState.value = it },
             label = { Text("Last Name") }
         )
         Spacer(modifier = Modifier.height(8.dp))
 
-        TextField(
-            value = email.value,
-            onValueChange = { email.value = it },
+        val emailState = remember { mutableStateOf(TextFieldValue("")) }
+        OutlinedTextField(
+            value = emailState.value,
+            onValueChange = { emailState.value = it },
             label = { Text("Email Address") },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email)
         )
         Spacer(modifier = Modifier.height(16.dp))
 
-        Button(onClick = {/* Navigate to next screen */}) {
+        Button(onClick = {
+            if (firstNameState.value.text.isBlank() || lastNameState.value.text.isBlank() || emailState.value.text.isBlank()) {
+                Toast.makeText(context, "Registration unsuccessful. Please enter all data.", Toast.LENGTH_SHORT).show()
+            } else {
+                saveToSharedPreferences(context, firstNameState.value.text,
+                    lastNameState.value.text, emailState.value.text)
+                Toast.makeText(context, "Registration successful!", Toast.LENGTH_SHORT).show()
+                navController.navigate("Home")
+            }
+
+        }) {
             Text("Register")
         }
 
     }
 }
 
+fun saveToSharedPreferences(context: Context, firstName: String, lastName: String, email: String) {
+    val sharedPref = context.getSharedPreferences("UserDetails", Context.MODE_PRIVATE) ?: return
+    with(sharedPref.edit()) {
+        putString("firstName", firstName)
+        putString("lastName", lastName)
+        putString("email", email)
+        apply()
+    }
+}
+
 @Preview(showBackground = true)
 @Composable
 fun OnboardingPreview() {
-    Onboarding()
+    val navController = rememberNavController()
+    Onboarding(navController)
 }
