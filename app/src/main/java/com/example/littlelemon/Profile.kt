@@ -24,9 +24,9 @@ import androidx.navigation.compose.rememberNavController
 fun Profile(navController: NavController) {
     val context = LocalContext.current
     val sharedPreferences = context.getSharedPreferences(USER_PROFILE, Context.MODE_PRIVATE)
-    val firstName = sharedPreferences.getString(FIRST_NAME, "N/A") ?: "N/A"
-    val lastName = sharedPreferences.getString(LAST_NAME, "N/A") ?: "N/A"
-    val email = sharedPreferences.getString(EMAIL, "N/A") ?: "N/A"
+    val firstName = sharedPreferences.getString(FIRST_NAME, "N/A")
+    val lastName = sharedPreferences.getString(LAST_NAME, "N/A")
+    val email = sharedPreferences.getString(EMAIL, "N/A")
 
 
     Column(
@@ -51,12 +51,9 @@ fun Profile(navController: NavController) {
 
         Button(
             onClick = {
-                // Clear shared preferences
                 sharedPreferences.edit().clear().apply()
 
-                // Navigate to Onboarding screen
                 navController.navigate(OnboardingDestination.route) {
-                    // Reset the back stack to prevent back navigation
                     popUpTo(OnboardingDestination.route) { inclusive = true }
                 }
             },
