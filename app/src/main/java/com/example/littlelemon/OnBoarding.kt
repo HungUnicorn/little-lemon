@@ -7,18 +7,24 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Error
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -73,11 +79,30 @@ fun Onboarding(navController: NavController) {
         )
         Spacer(modifier = Modifier.height(8.dp))
 
+        var isValidEmail by rememberSaveable { mutableStateOf(true) }
         OutlinedTextField(
             value = email,
-            onValueChange = { email = it },
+            onValueChange = {
+                email = it
+                isValidEmail = isValidEmail(it)
+            },
             label = { Text("Email Address") },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email)
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
+            isError = !isValidEmail,
+            supportingText = {
+                if (!isValidEmail) {
+                    Text(
+                        modifier = Modifier.fillMaxWidth(),
+                        text = "Invalid email",
+                        color = MaterialTheme.colorScheme.error
+                    )
+                }
+            },
+            trailingIcon = {
+                if (!isValidEmail)
+                    Icon(Icons.Filled.Error,"error", tint = MaterialTheme.colorScheme.error)
+            },
+
         )
         Spacer(modifier = Modifier.height(16.dp))
 
@@ -104,14 +129,8 @@ fun Onboarding(navController: NavController) {
     }
 }
 
-fun saveToSharedPreferences(context: Context, firstName: String, lastName: String, email: String) {
-    val sharedPref = context.getSharedPreferences(USER_PROFILE, Context.MODE_PRIVATE) ?: return
-    with(sharedPref.edit()) {
-        putString(firstName, firstName)
-        putString(lastName, lastName)
-        putString(email, email)
-        apply()
-    }
+fun isValidEmail(email: String): Boolean {
+    return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
 }
 
 @Preview(showBackground = true)
