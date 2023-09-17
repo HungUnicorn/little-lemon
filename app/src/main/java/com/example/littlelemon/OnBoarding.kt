@@ -15,6 +15,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Error
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -62,20 +63,20 @@ fun Onboarding(navController: NavController) {
                 .align(Alignment.CenterHorizontally)
         )
         Spacer(modifier = Modifier.height(16.dp))
-        Text(text = "Let's get to know you")
+        Text(text = "Let's get to know you", style = MaterialTheme.typography.headlineSmall)
         Spacer(modifier = Modifier.height(16.dp))
 
         OutlinedTextField(
             value = firstName,
             onValueChange = { firstName = it },
-            label = { Text("First Name") }
+            label = { Text("First Name", style = MaterialTheme.typography.bodyMedium) }
         )
         Spacer(modifier = Modifier.height(8.dp))
 
         OutlinedTextField(
             value = lastName,
             onValueChange = { lastName = it },
-            label = { Text("Last Name") }
+            label = { Text("Last Name", style = MaterialTheme.typography.bodyMedium) }
         )
         Spacer(modifier = Modifier.height(8.dp))
 
@@ -86,7 +87,7 @@ fun Onboarding(navController: NavController) {
                 email = it
                 isValidEmail = isValidEmail(it)
             },
-            label = { Text("Email Address") },
+            label = { Text("Email Address", style = MaterialTheme.typography.bodyMedium) },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
             isError = !isValidEmail,
             supportingText = {
@@ -123,7 +124,8 @@ fun Onboarding(navController: NavController) {
             }
 
         }) {
-            Text("Register")
+            Text("Register", style = MaterialTheme.typography.labelLarge
+            )
         }
 
     }

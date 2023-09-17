@@ -26,5 +26,6 @@ fun NavigationComposable(navController: NavHostController, database: AppDatabase
 fun hasUserDataInSharedPreferences(): Boolean {
     val context = LocalContext.current
     val sharedPreferences = context.getSharedPreferences(USER_PROFILE, Context.MODE_PRIVATE)
-    return sharedPreferences.contains(FIRST_NAME)
+    val email = sharedPreferences.getString(EMAIL, "") ?: ""
+    return email.isNotBlank()
 }

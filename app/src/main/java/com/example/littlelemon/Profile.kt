@@ -7,14 +7,14 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.MaterialTheme.typography
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -40,14 +40,17 @@ fun Profile(navController: NavController) {
             modifier = Modifier.padding(top = 16.dp)
         )
         Text(
-            text = "Profile information:",
-            style = TextStyle(fontWeight = FontWeight.Bold),
+            text = "Profile information",
+            style = typography.headlineMedium,
             modifier = Modifier.padding(top = 16.dp)
         )
 
-        Text("First Name: $firstName", modifier = Modifier.padding(top = 8.dp))
-        Text("Last Name: $lastName", modifier = Modifier.padding(top = 8.dp))
-        Text("Email: $email", modifier = Modifier.padding(top = 8.dp))
+        Text("First Name: $firstName", modifier = Modifier.padding(top = 8.dp),
+            style = typography.bodyMedium)
+        Text("Last Name: $lastName", modifier = Modifier.padding(top = 8.dp),
+            style = typography.bodyMedium)
+        Text("Email: $email", modifier = Modifier.padding(top = 8.dp),
+            style = typography.bodyMedium)
 
         Button(
             onClick = {
