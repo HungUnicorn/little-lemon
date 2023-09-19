@@ -4,7 +4,7 @@ Coursera Android App Capstone by META. The final project of [Meta Android Develo
 ## Overview
 This Android application is the final project of the Coursera Capstone by META. It's written in Kotlin and utilizes Jetpack Compose for building its UI.
 
-## Navigation Diagram
+## Application Flow
 ![nagivation_diagram](navigation_diagram.png)
 
 ## Features
