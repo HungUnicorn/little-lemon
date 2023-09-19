@@ -9,7 +9,7 @@ This Android application is the final project of the Coursera Capstone by META. 
 
 ## Features
 - Navigation: Navigate to different screens.
-- Fetch remote data: Fetch remote data using Ktor
+- Fetch remote data: Fetch remote data using Ktor.
 - Store data locally: Store it in database using Romm and sharedPreference.
 - Theme: Use Theme to centralize styling.
 
@@ -18,4 +18,4 @@ Android SDK
 Android Build Tools
 
 ## License
-This project is licensed under the MIT License - see the LICENSE.md file for details.
+This project is licensed under the MIT License - see the [License.md](LICENSE.md) file for details.
